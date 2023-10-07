@@ -2,6 +2,7 @@
 name = "mdfy-esa"
 version = "0.1.0"
 homepage = "https://github.com/argonism/mdfy-esa"
+repository = "https://github.com/argonism/mdfy-esa"
 description = "mdfy plugin for esa."
 authors = ["k-ush <argoooooon@gmail.com>"]
 readme = "README.md"
