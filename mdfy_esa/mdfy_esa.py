@@ -59,6 +59,7 @@ class EsaMdfier(Mdfier):
             element.src = url
         elif isinstance(element, MdLink):
             parsed_result = urlparse(element.url)
+            print(parsed_result)
             if parsed_result.scheme == "":
                 url = self.client.upload_file(element.url)
             elif parsed_result.scheme == "file":

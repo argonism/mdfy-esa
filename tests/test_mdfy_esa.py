@@ -27,6 +27,34 @@ def test_write_with_MdImage(mock_create_post, mock_upload_file):
 
 @patch('piyo.Client.upload_file', return_value="http://uploaded.file")
 @patch('piyo.Client.create_post')
+def test_write_with_None_for_fullname_and_number(mock_create_post, mock_upload_file):
+    post_fullname = None
+    with pytest.raises(ValueError, match="Either post_fullname or post_number must be set"):
+        EsaMdfier(post_fullname=post_fullname, esa_team="test_team")
+
+
+@patch('piyo.Client.upload_file', return_value="http://uploaded.file")
+@patch('piyo.Client.create_post')
+def test_write_with_file_scheme_url(mock_create_post, mock_upload_file):
+    post_fullname = "Test Article"
+    file_path = "/path-to-mdfy/tests/example_file.txt"
+    mdfier = EsaMdfier(post_fullname=post_fullname, esa_team="test_team")
+    link_element = MdLink(url=f"file://{file_path}")
+
+    mdfier.write(contents=link_element)
+
+    mock_upload_file.assert_called_once_with(file_path)
+    mock_create_post.assert_called_once()
+    assert mock_create_post.call_args[0][0] == {
+        "post": {
+            "name": post_fullname,
+            "body_md": "[http://uploaded.file](http://uploaded.file)\n",
+        }
+    }
+
+
+@patch('piyo.Client.upload_file', return_value="http://uploaded.file")
+@patch('piyo.Client.create_post')
 def test_write_with_MdLink(mock_create_post, mock_upload_file):
     post_fullname = "Test Article"
     mdfier = EsaMdfier(post_fullname=post_fullname, esa_team="test_team")
