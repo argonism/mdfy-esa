@@ -46,6 +46,7 @@ jobs:
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          root_dir: /home/runner/work/mdfy-esa
 
       - name: Get version from tag
         id: tag_name
