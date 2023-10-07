@@ -42,6 +42,11 @@ jobs:
           poetry add tox-gh-actions
           poetry run tox
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Get version from tag
         id: tag_name
         run: |
