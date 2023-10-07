@@ -44,9 +44,10 @@ jobs:
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          root_dir: /home/runner/work/mdfy-esa
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-          root_dir: /home/runner/work/mdfy-esa
 
       - name: Get version from tag
         id: tag_name
