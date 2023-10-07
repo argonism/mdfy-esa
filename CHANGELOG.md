@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.0] - 2023-10-07
+
+-   Add docstrings to stringify_element
+
 ## [0.1.1] - 2023-10-07
 
 -   Fix codecov
