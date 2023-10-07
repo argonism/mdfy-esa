@@ -39,7 +39,8 @@ class EsaMdfier(Mdfier):
         """Initializes the EsaMdfier class.
 
         Args:
-            article_path (str): The path to the article to modify.
+            post_fullname (str): The path to the post to modify.
+            post_number (int): The number of the post for update.
             esa_team (Optional[str], optional): The name of the Esa team. Defaults to None.
         """
         self.post_fullname = post_fullname
@@ -54,6 +55,14 @@ class EsaMdfier(Mdfier):
         self.client = piyo.Client(current_team=self.team)
 
     def stringify_element(self, element: Union[MdElement, str]) -> str:
+        """Converts the given element to a string.
+
+        Args:
+            element (Union[MdElement, str]): The element to convert.
+
+        Returns:
+            str: The converted string.
+        """
         if isinstance(element, MdImage):
             url = self.client.upload_file(element.src)
             element.src = url
