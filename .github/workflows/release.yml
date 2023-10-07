@@ -39,7 +39,7 @@ jobs:
           poetry self add poetry-version-plugin
 
       - name: test with tox
-        run:
+        run: |
           poetry add tox-gh-actions
           poetry run tox
 
@@ -58,7 +58,7 @@ jobs:
           path: ./CHANGELOG.md
 
       - name: Build wheels
-        run: >-
+        run:
           poetry build
 
       - name: Publish release distributions to PyPI
