@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0] - 2023-10-07
+## [0.2.1] - 2023-10-07
 
 -   Modify EsaMdier docstrings
 
