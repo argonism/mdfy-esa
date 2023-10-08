@@ -66,8 +66,8 @@ ensure_newline_before_comments = true
 line_length = 120
 skip_gitignore = true
 
-# [tool.poetry-version-plugin]
-# source = "git-tag"
+[tool.poetry-version-plugin]
+source = "git-tag"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
