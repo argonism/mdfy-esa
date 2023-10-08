@@ -1,5 +1,5 @@
 import os
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Dict, Any
 from urllib.parse import urlparse
 
 import piyo
@@ -79,7 +79,7 @@ class EsaMdfier(Mdfier):
     def write(
         self,
         contents: Union[List[Union[str, MdElement]], MdElement],
-    ) -> None:
+    ) -> Dict[str, Any]:
         """post the given Markdown content to esa.io.
 
         Args:
@@ -96,6 +96,6 @@ class EsaMdfier(Mdfier):
             markdown += content_md + "\n"
 
         if self.post_fullname:
-            self.client.create_post({"post": {"name": self.post_fullname, "body_md": markdown}})
+            return self.client.create_post({"post": {"name": self.post_fullname, "body_md": markdown}})
         elif self.post_number:
-            self.client.update_post(self.post_number, {"post": {"body_md": markdown}})
+            return self.client.update_post(self.post_number, {"post": {"body_md": markdown}})

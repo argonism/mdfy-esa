@@ -1,11 +1,11 @@
 import os
 
-from mdfy import MdImage, MdLink, MdText
+from mdfy import MdImage, MdLink, MdText, Dict, Any
 
 from mdfy_esa import EsaMdfier
 
 
-def main(post_fullname: str, esa_team: str) -> None:
+def create_post(post_fullname: str, esa_team: str) -> Dict[str, Any]:
     contents = [
         MdText("This is a test article."),
         MdImage(src="examples/test_image.png"),
@@ -13,10 +13,24 @@ def main(post_fullname: str, esa_team: str) -> None:
     ]
 
     mdfier = EsaMdfier(post_fullname=post_fullname, esa_team=esa_team)
-    mdfier.write(contents=contents)
+    return mdfier.write(contents=contents)
+
+
+def update_post(post_number: int, esa_team: str) -> Dict[str, Any]:
+    contents = [
+        MdText("This is a test article."),
+        MdText("This is a test article."),
+        MdImage(src="examples/test_image.png"),
+        MdLink(url="examples/dummy.pdf"),
+    ]
+
+    mdfier = EsaMdfier(post_number=post_number, esa_team=esa_team)
+    return mdfier.write(contents=contents)
 
 
 if __name__ == "__main__":
-    post_fullname = "ノート/k-ush/2023/実験メモ_2023-10-04"
+    post_fullname = "note/me/My Test Article"
     esa_team = os.environ["ESA_TEAM"]
-    main(post_fullname, esa_team)
+    created_post = create_post(post_fullname, esa_team)
+    updated_post = update_post(created_post["number"], esa_team)
+    print("post updated!:", updated_post["url"])
