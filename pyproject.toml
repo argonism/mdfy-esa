@@ -10,7 +10,7 @@ license = "MIT"
 packages = [{ include = "mdfy_esa" }, { include = "tests", format = "sdist" }]
 
 [tool.poetry.dependencies]
-python = ">=3.8.1,<4.0"
+python = ">=3.8,<4.0"
 mdfy = "^0.2.0"
 piyo = "^1.1.1"
 
@@ -66,8 +66,8 @@ ensure_newline_before_comments = true
 line_length = 120
 skip_gitignore = true
 
-[tool.poetry-version-plugin]
-source = "git-tag"
+# [tool.poetry-version-plugin]
+# source = "git-tag"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
