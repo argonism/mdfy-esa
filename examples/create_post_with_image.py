@@ -1,6 +1,7 @@
 import os
+from typing import Any, Dict
 
-from mdfy import MdImage, MdLink, MdText, Dict, Any
+from mdfy import MdImage, MdLink, MdText
 
 from mdfy_esa import EsaMdfier
 
