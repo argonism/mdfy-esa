@@ -2,7 +2,7 @@
 
 [![pypi](https://img.shields.io/pypi/v/mdfy-esa.svg)](https://pypi.org/project/mdfy-esa/)
 [![python](https://img.shields.io/pypi/pyversions/mdfy-esa.svg)](https://pypi.org/project/mdfy-esa/)
-[![Build Status](https://github.com/argonism/mdfy-esa/actions/workflows/release.yml/badge.svg)](https://github.com/argonism/mdfy-esa/actions/workflows/release.yml)
+[![release & publish workflow](https://github.com/argonism/mdfy-esa/actions/workflows/release.yml/badge.svg?event=push)](https://github.com/argonism/mdfy-esa/actions/workflows/release.yml)
 [![test status](https://github.com/argonism/mdfy-esa/actions/workflows/dev.yml/badge.svg)](https://github.com/argonism/mdfy-esa/actions/workflows/dev.yml)
 [![codecov](https://codecov.io/gh/argonism/mdfy-esa/branch/main/graphs/badge.svg)](https://codecov.io/github/argonism/mdfy-esa)
 
