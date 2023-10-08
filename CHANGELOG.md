@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.3.0] - 2023-10-07
+
+-   Modify min python version to 3.8
+
 ## [0.2.1] - 2023-10-07
 
 -   Modify EsaMdier docstrings
