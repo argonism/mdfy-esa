@@ -10,8 +10,8 @@ class EsaMdfier(Mdfier):
     """A class to modify Markdown files and upload images to Esa.
 
     Args:
-        post_fullname (Optional[str], optional): The full name of the article to modify.
-        post_number (Optional[int], optional): The number of the article to modify.
+        post_fullname (Optional[str], optional): The full name of the post to modify.
+        post_number (Optional[int], optional): The number of the post to update.
         esa_team (Optional[str], optional): The name of the Esa team. Defaults to None.
             you can set this param or the environment variable ESA_TEAM.
 
@@ -39,8 +39,8 @@ class EsaMdfier(Mdfier):
         """Initializes the EsaMdfier class.
 
         Args:
-            post_fullname (str): The path to the post to modify.
-            post_number (int): The number of the post for update.
+            post_fullname (Optional[str], optional): The path to the post to modify.
+            post_number (Optional[int], optional): The number of the post to update.
             esa_team (Optional[str], optional): The name of the Esa team. Defaults to None.
         """
         self.post_fullname = post_fullname
