@@ -13,6 +13,14 @@ mdfy plugin for esa
 -   PyPI: <https://pypi.org/project/mdfy-esa/>
 -   Free software: MIT
 
+## Pre-requirement
+
+You need set esa.io API token and set it to environment veriable ESA_ACCESS_TOKEN.
+
+``` shell
+export ESA_ACCESS_TOKEN=YOUR_ACCESS_TOKEN
+```
+
 ## Usage
 
 The mdfy-esa feature supports uploading of local images and files.
