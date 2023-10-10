@@ -723,7 +723,15 @@ you can set this param or the environment variable ESA_TEAM.</p>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EsaMdfier</span><span class="p">(</span><span class="n">Mdfier</span><span class="p">):</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EsaMdfier</span><span class="p">(</span><span class="n">Mdfier</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A class to modify Markdown files and upload images to Esa.</span>
 
 <span class="sd">    Args:</span>
@@ -795,12 +803,16 @@ you can set this param or the environment variable ESA_TEAM.</p>
     <span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">contents</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MdElement</span><span class="p">]],</span> <span class="n">MdElement</span><span class="p">],</span>
+        <span class="n">post_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="o">**</span><span class="n">payloads</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;post the given Markdown content to esa.io.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            contents (Union[List[Union[str, MdElement]], MdElement]):</span>
 <span class="sd">                The Markdown content to write to the file.</span>
+<span class="sd">            post_params (Dict[str, Any], optional): Additional parameters for the post. see https://docs.esa.io/posts/102#POST%20/v1/teams/:team_name/posts. Defaults to {}.</span>
+<span class="sd">            **payloads (Optional[Dict[str, Any]]): Additional parameters for piyo see https://github.com/argonism/piyo/blob/master/piyo/client.py#L112.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">contents</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -812,9 +824,13 @@ you can set this param or the environment variable ESA_TEAM.</p>
             <span class="n">markdown</span> <span class="o">+=</span> <span class="n">content_md</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_fullname</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_post</span><span class="p">({</span><span class="s2">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_fullname</span><span class="p">,</span> <span class="s2">&quot;body_md&quot;</span><span class="p">:</span> <span class="n">markdown</span><span class="p">}})</span>
+            <span class="n">post_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_fullname</span><span class="p">,</span> <span class="s2">&quot;body_md&quot;</span><span class="p">:</span> <span class="n">markdown</span><span class="p">,</span> <span class="o">**</span><span class="n">post_params</span><span class="p">}}</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_post</span><span class="p">(</span><span class="n">post_data</span><span class="p">,</span> <span class="o">**</span><span class="n">payloads</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_number</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">update_post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post_number</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;body_md&quot;</span><span class="p">:</span> <span class="n">markdown</span><span class="p">}})</span>
+            <span class="n">update_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;body_md&quot;</span><span class="p">:</span> <span class="n">markdown</span><span class="p">,</span> <span class="o">**</span><span class="n">post_params</span><span class="p">}}</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">update_post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post_number</span><span class="p">,</span> <span class="n">update_data</span><span class="p">,</span> <span class="o">**</span><span class="n">payloads</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either post_fullname or post_number must be set. Please set one of them.&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -1081,7 +1097,7 @@ you can set this param or the environment variable ESA_TEAM.</p>
 
 
 <h3 id="mdfy_esa.mdfy_esa.EsaMdfier.write" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">,</span> <span class="n">post_params</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">payloads</span><span class="p">)</span></code>
 
 <a href="#mdfy_esa.mdfy_esa.EsaMdfier.write" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -1117,6 +1133,34 @@ you can set this param or the environment variable ESA_TEAM.</p>
               <em>required</em>
           </td>
         </tr>
+        <tr>
+          <td><code>post_params</code></td>
+          <td>
+                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Additional parameters for the post. see https://docs.esa.io/posts/102#POST%20/v1/teams/:team_name/posts. Defaults to {}.</p>
+            </div>
+          </td>
+          <td>
+                <code>{}</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>**payloads</code></td>
+          <td>
+                <code><span title="typing.Optional">Optional</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>Additional parameters for piyo see https://github.com/argonism/piyo/blob/master/piyo/client.py#L112.</p>
+            </div>
+          </td>
+          <td>
+                <code>{}</code>
+          </td>
+        </tr>
     </tbody>
   </table>
 
@@ -1144,15 +1188,27 @@ you can set this param or the environment variable ESA_TEAM.</p>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">write</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">contents</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MdElement</span><span class="p">]],</span> <span class="n">MdElement</span><span class="p">],</span>
+    <span class="n">post_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="o">**</span><span class="n">payloads</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;post the given Markdown content to esa.io.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        contents (Union[List[Union[str, MdElement]], MdElement]):</span>
 <span class="sd">            The Markdown content to write to the file.</span>
+<span class="sd">        post_params (Dict[str, Any], optional): Additional parameters for the post. see https://docs.esa.io/posts/102#POST%20/v1/teams/:team_name/posts. Defaults to {}.</span>
+<span class="sd">        **payloads (Optional[Dict[str, Any]]): Additional parameters for piyo see https://github.com/argonism/piyo/blob/master/piyo/client.py#L112.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">contents</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -1164,9 +1220,13 @@ you can set this param or the environment variable ESA_TEAM.</p>
         <span class="n">markdown</span> <span class="o">+=</span> <span class="n">content_md</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_fullname</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_post</span><span class="p">({</span><span class="s2">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_fullname</span><span class="p">,</span> <span class="s2">&quot;body_md&quot;</span><span class="p">:</span> <span class="n">markdown</span><span class="p">}})</span>
+        <span class="n">post_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_fullname</span><span class="p">,</span> <span class="s2">&quot;body_md&quot;</span><span class="p">:</span> <span class="n">markdown</span><span class="p">,</span> <span class="o">**</span><span class="n">post_params</span><span class="p">}}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_post</span><span class="p">(</span><span class="n">post_data</span><span class="p">,</span> <span class="o">**</span><span class="n">payloads</span><span class="p">)</span>
     <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_number</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">update_post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post_number</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;body_md&quot;</span><span class="p">:</span> <span class="n">markdown</span><span class="p">}})</span>
+        <span class="n">update_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;post&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;body_md&quot;</span><span class="p">:</span> <span class="n">markdown</span><span class="p">,</span> <span class="o">**</span><span class="n">post_params</span><span class="p">}}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">update_post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">post_number</span><span class="p">,</span> <span class="n">update_data</span><span class="p">,</span> <span class="o">**</span><span class="n">payloads</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Either post_fullname or post_number must be set. Please set one of them.&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
