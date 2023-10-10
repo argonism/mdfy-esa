@@ -86,6 +86,8 @@ class EsaMdfier(Mdfier):
         Args:
             contents (Union[List[Union[str, MdElement]], MdElement]):
                 The Markdown content to write to the file.
+            post_params (Dict[str, Any], optional): Additional parameters for the post. see https://docs.esa.io/posts/102#POST%20/v1/teams/:team_name/posts. Defaults to {}.
+            **payloads (Optional[Dict[str, Any]]): Additional parameters for piyo see https://github.com/argonism/piyo/blob/master/piyo/client.py#L112.
         """
 
         if not isinstance(contents, list):
