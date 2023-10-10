@@ -78,6 +78,8 @@ class EsaMdfier(Mdfier):
     def write(
         self,
         contents: Union[List[Union[str, MdElement]], MdElement],
+        post_params: Dict[str, Any] = {},
+        **payloads: Optional[Dict[str, Any]],
     ) -> Dict[str, Any]:
         """post the given Markdown content to esa.io.
 
@@ -95,6 +97,10 @@ class EsaMdfier(Mdfier):
             markdown += content_md + "\n"
 
         if self.post_fullname:
-            return self.client.create_post({"post": {"name": self.post_fullname, "body_md": markdown}})
+            post_data = {"post": {"name": self.post_fullname, "body_md": markdown, **post_params}}
+            return self.client.create_post(post_data, **payloads)
         elif self.post_number:
-            return self.client.update_post(self.post_number, {"post": {"body_md": markdown}})
+            update_data = {"post": {"body_md": markdown, **post_params}}
+            return self.client.update_post(self.post_number, update_data, **payloads)
+        else:
+            raise ValueError("Either post_fullname or post_number must be set. Please set one of them.")
