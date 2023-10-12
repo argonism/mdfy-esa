@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.5.0] - 2023-10-12
+
+-   Add py.typed to follow PEP 561
+
 ## [0.4.0] - 2023-10-09
 
 -   Add post_params and \*\*payloads params to EsaMdfier.write()
