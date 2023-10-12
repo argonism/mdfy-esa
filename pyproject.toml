@@ -8,6 +8,7 @@ authors = ["k-ush <argoooooon@gmail.com>"]
 readme = "README.md"
 license = "MIT"
 packages = [{ include = "mdfy_esa" }, { include = "tests", format = "sdist" }]
+classifiers = ["Typing :: Typed"]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
